@@ -3,10 +3,16 @@ import { Check, X, Clock } from 'lucide-react';
 
 export default function LeaveHistory({ userRole, refreshKey }) {
   const [leaves, setLeaves] = useState([]);
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchLeaves = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/leave', {
+      const queryParams = new URLSearchParams();
+      if (filterStatus !== 'all') queryParams.append('status', filterStatus);
+      if (searchTerm) queryParams.append('search', searchTerm);
+      
+      const response = await fetch(`http://localhost:5000/api/leave?${queryParams.toString()}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -22,9 +28,12 @@ export default function LeaveHistory({ userRole, refreshKey }) {
 
   useEffect(() => {
     fetchLeaves();
-  }, [refreshKey]);
+  }, [refreshKey, filterStatus, searchTerm]);
 
   const updateStatus = async (id, status) => {
+    const remarks = window.prompt(`Enter remarks for ${status === 'approved' ? 'approving' : 'rejecting'} this leave (optional):`);
+    if (remarks === null) return; // User cancelled prompt
+
     try {
       const response = await fetch(`http://localhost:5000/api/leave/${id}/status`, {
         method: 'PATCH',
@@ -32,7 +41,7 @@ export default function LeaveHistory({ userRole, refreshKey }) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify({ status })
+        body: JSON.stringify({ status, remarks })
       });
       
       if (response.ok) {
@@ -53,7 +62,33 @@ export default function LeaveHistory({ userRole, refreshKey }) {
 
   return (
     <div className="glass-panel" style={{ height: 'fit-content' }}>
-      <h3 style={{ marginBottom: '1.5rem' }}>{userRole === 'student' ? 'My Leave History' : 'All Leave Requests'}</h3>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+        <h3 style={{ margin: 0 }}>{userRole === 'student' ? 'My Leave History' : 'All Leave Requests'}</h3>
+        
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          {userRole !== 'student' && (
+            <input 
+              type="text" 
+              placeholder="Search names or reasons..." 
+              className="input-field" 
+              style={{ padding: '0.4rem 0.8rem', width: '200px', margin: 0 }}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          )}
+          <select 
+            className="input-field" 
+            style={{ padding: '0.4rem 0.8rem', width: '130px', margin: 0, appearance: 'none', backgroundColor: '#0F0F12' }}
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
       
       <div className="table-container">
         <table>
@@ -61,7 +96,7 @@ export default function LeaveHistory({ userRole, refreshKey }) {
             <tr>
               {userRole !== 'student' && <th>Student</th>}
               <th>Duration</th>
-              <th>Reason</th>
+              <th>Details</th>
               <th>Status</th>
               {userRole !== 'student' && <th>Actions</th>}
             </tr>
@@ -86,7 +121,14 @@ export default function LeaveHistory({ userRole, refreshKey }) {
                     <div style={{ fontSize: '0.85rem' }}>{leave.start_date}</div>
                     <div style={{ fontSize: '0.85rem', color: 'var(--foreground-muted)' }}>{leave.end_date}</div>
                   </td>
-                  <td>{leave.reason}</td>
+                  <td>
+                    <div style={{ fontSize: '0.9rem' }}>{leave.reason}</div>
+                    {leave.remarks && (
+                      <div style={{ fontSize: '0.8rem', color: 'var(--accent)', marginTop: '0.25rem', padding: '0.25rem 0.5rem', background: 'var(--surface)', borderRadius: '4px', display: 'inline-block' }}>
+                        Remarks: {leave.remarks}
+                      </div>
+                    )}
+                  </td>
                   <td>{getStatusBadge(leave.status)}</td>
                   {userRole !== 'student' && (
                     <td>

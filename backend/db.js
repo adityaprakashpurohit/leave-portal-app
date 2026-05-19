@@ -35,6 +35,7 @@ const initDb = () => {
                 start_date TEXT NOT NULL,
                 end_date TEXT NOT NULL,
                 reason TEXT NOT NULL,
+                remarks TEXT,
                 status TEXT CHECK(status IN ('pending', 'approved', 'rejected')) DEFAULT 'pending',
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (student_id) REFERENCES users(id)

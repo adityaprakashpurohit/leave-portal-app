@@ -14,9 +14,13 @@ initDb();
 // Routes
 const authRoutes = require('./routes/auth');
 const leaveRoutes = require('./routes/leave');
+const analyticsRoutes = require('./routes/analytics');
+const notificationsRoutes = require('./routes/notifications');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/leave', leaveRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/notifications', notificationsRoutes);
 
 app.get('/', (req, res) => {
     res.send('Leave Application API is running');
