@@ -38,11 +38,14 @@ export default function LeaveForm({ onLeaveSubmitted }) {
   };
 
   return (
-    <div className="glass-panel">
-      <h3>Apply for Leave</h3>
+    <div className="glass-panel" style={{ height: 'fit-content' }}>
+      <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <Calendar size={20} style={{ color: 'var(--accent)' }} /> 
+        Apply for Leave
+      </h3>
       
-      {error && <div style={{ color: 'var(--danger)', marginBottom: '1rem' }}>{error}</div>}
-      {success && <div style={{ color: 'var(--success)', marginBottom: '1rem' }}>{success}</div>}
+      {error && <div className="fade-up" style={{ padding: '0.75rem', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', color: 'var(--danger)', borderRadius: '6px', marginBottom: '1rem', fontSize: '0.85rem' }}>{error}</div>}
+      {success && <div className="fade-up" style={{ padding: '0.75rem', backgroundColor: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.2)', color: 'var(--success)', borderRadius: '6px', marginBottom: '1rem', fontSize: '0.85rem' }}>{success}</div>}
 
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
@@ -53,6 +56,7 @@ export default function LeaveForm({ onLeaveSubmitted }) {
               className="input-field"
               value={formData.startDate}
               onChange={(e) => setFormData({...formData, startDate: e.target.value})}
+              style={{ colorScheme: 'dark' }}
               required
             />
           </div>
@@ -63,6 +67,7 @@ export default function LeaveForm({ onLeaveSubmitted }) {
               className="input-field"
               value={formData.endDate}
               onChange={(e) => setFormData({...formData, endDate: e.target.value})}
+              style={{ colorScheme: 'dark' }}
               required
             />
           </div>
@@ -79,8 +84,8 @@ export default function LeaveForm({ onLeaveSubmitted }) {
           ></textarea>
         </div>
 
-        <button type="submit" className="btn btn-primary">
-          <Calendar size={18} /> Submit Application
+        <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '0.5rem' }}>
+          Submit Application
         </button>
       </form>
     </div>

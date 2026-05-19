@@ -27,37 +27,35 @@ export default function Dashboard() {
   return (
     <div>
       <nav className="nav-bar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', fontSize: '1.2rem' }}>
-          <LayoutDashboard className="text-primary" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: '600', fontSize: '1.25rem' }}>
+          <LayoutDashboard style={{ color: 'var(--accent)' }} size={22} />
           <span>LeavePortal</span>
         </div>
         
         <div className="nav-links">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginRight: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginRight: '1rem', color: 'var(--foreground-muted)' }}>
             <User size={18} />
-            <span>{user.name} ({user.role})</span>
+            <span style={{ fontSize: '0.9rem' }}>{user.name} <span style={{ opacity: 0.6, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>({user.role})</span></span>
           </div>
-          <button onClick={handleLogout} className="btn btn-outline" style={{ padding: '0.4rem 1rem' }}>
+          <button onClick={handleLogout} className="btn btn-outline" style={{ padding: '0.4rem 1rem', fontSize: '0.85rem' }}>
             <LogOut size={16} /> Logout
           </button>
         </div>
       </nav>
 
       <main className="container">
-        <div style={{ marginBottom: '2rem' }}>
+        <div className="fade-up" style={{ marginBottom: '3rem', marginTop: '1rem' }}>
           <h1>Welcome, {user.name}</h1>
-          <p style={{ color: 'var(--text-muted)' }}>Manage your leave applications and history.</p>
+          <p style={{ color: 'var(--foreground-muted)', fontSize: '1.1rem', marginTop: '0.5rem' }}>Manage your leave applications and history.</p>
         </div>
 
         {user.role === 'student' ? (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
-              <LeaveForm onLeaveSubmitted={handleLeaveSubmitted} />
-              <LeaveHistory userRole={user.role} refreshKey={refreshKey} />
-            </div>
+          <div className="stagger-1 fade-up" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
+            <LeaveForm onLeaveSubmitted={handleLeaveSubmitted} />
+            <LeaveHistory userRole={user.role} refreshKey={refreshKey} />
           </div>
         ) : (
-          <div>
+          <div className="stagger-1 fade-up">
             <LeaveHistory userRole={user.role} refreshKey={refreshKey} />
           </div>
         )}

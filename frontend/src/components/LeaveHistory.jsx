@@ -52,8 +52,8 @@ export default function LeaveHistory({ userRole, refreshKey }) {
   };
 
   return (
-    <div className="glass-panel">
-      <h3>{userRole === 'student' ? 'My Leave History' : 'All Leave Requests'}</h3>
+    <div className="glass-panel" style={{ height: 'fit-content' }}>
+      <h3 style={{ marginBottom: '1.5rem' }}>{userRole === 'student' ? 'My Leave History' : 'All Leave Requests'}</h3>
       
       <div className="table-container">
         <table>
@@ -75,16 +75,16 @@ export default function LeaveHistory({ userRole, refreshKey }) {
               </tr>
             ) : (
               leaves.map(leave => (
-                <tr key={leave.id}>
+                <tr key={leave.id} className="fade-up" style={{ animationDelay: '0.1s' }}>
                   {userRole !== 'student' && (
                     <td>
-                      <div>{leave.student_name}</div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{leave.student_email}</div>
+                      <div style={{ fontWeight: 500 }}>{leave.student_name}</div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--foreground-muted)', marginTop: '0.25rem' }}>{leave.student_email}</div>
                     </td>
                   )}
                   <td>
-                    <div>{leave.start_date} to</div>
-                    <div>{leave.end_date}</div>
+                    <div style={{ fontSize: '0.85rem' }}>{leave.start_date}</div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--foreground-muted)' }}>{leave.end_date}</div>
                   </td>
                   <td>{leave.reason}</td>
                   <td>{getStatusBadge(leave.status)}</td>
@@ -93,15 +93,15 @@ export default function LeaveHistory({ userRole, refreshKey }) {
                       {leave.status === 'pending' && (
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
                           <button 
-                            className="btn btn-primary" 
-                            style={{ padding: '0.4rem', background: 'var(--success)' }}
+                            className="btn btn-outline" 
+                            style={{ padding: '0.4rem', color: 'var(--success)', borderColor: 'rgba(16, 185, 129, 0.3)' }}
                             onClick={() => updateStatus(leave.id, 'approved')}
                           >
                             <Check size={16} />
                           </button>
                           <button 
-                            className="btn btn-primary" 
-                            style={{ padding: '0.4rem', background: 'var(--danger)' }}
+                            className="btn btn-outline" 
+                            style={{ padding: '0.4rem', color: 'var(--danger)', borderColor: 'rgba(239, 68, 68, 0.3)' }}
                             onClick={() => updateStatus(leave.id, 'rejected')}
                           >
                             <X size={16} />

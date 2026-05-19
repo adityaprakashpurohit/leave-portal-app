@@ -45,14 +45,14 @@ export default function Login() {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '2rem' }}>
-      <div className="glass-panel" style={{ width: '100%', maxWidth: '400px' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '2rem', position: 'relative', zIndex: 10 }}>
+      <div className="glass-panel fade-up" style={{ width: '100%', maxWidth: '420px', padding: '3rem 2rem' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '2rem' }} className="stagger-1 fade-up">
           {isLogin ? 'Welcome Back' : 'Create Account'}
         </h2>
         
         {error && (
-          <div style={{ padding: '1rem', backgroundColor: 'rgba(239, 68, 68, 0.2)', color: 'var(--danger)', borderRadius: '8px', marginBottom: '1.5rem' }}>
+          <div className="fade-up" style={{ padding: '1rem', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', color: 'var(--danger)', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
             {error}
           </div>
         )}
@@ -94,12 +94,13 @@ export default function Login() {
           </div>
 
           {!isLogin && (
-            <div className="input-group">
+            <div className="input-group stagger-1 fade-up">
               <label>Role</label>
               <select 
                 className="input-field"
                 value={formData.role}
                 onChange={(e) => setFormData({...formData, role: e.target.value})}
+                style={{ appearance: 'none', backgroundColor: '#0F0F12', color: 'var(--foreground)' }}
               >
                 <option value="student">Student</option>
                 <option value="faculty">Faculty</option>
@@ -108,17 +109,17 @@ export default function Login() {
             </div>
           )}
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
-            {isLogin ? <><LogIn size={20} /> Login</> : <><UserPlus size={20} /> Sign Up</>}
+          <button type="submit" className="btn btn-primary stagger-2 fade-up" style={{ width: '100%', marginTop: '1.5rem', height: '48px' }}>
+            {isLogin ? <><LogIn size={18} /> Login to Portal</> : <><UserPlus size={18} /> Create Account</>}
           </button>
         </form>
 
-        <p style={{ textAlign: 'center', marginTop: '1.5rem', color: 'var(--text-muted)' }}>
+        <p className="stagger-3 fade-up" style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--foreground-muted)', fontSize: '0.9rem' }}>
           {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button 
             type="button"
             onClick={() => setIsLogin(!isLogin)}
-            style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', fontFamily: 'inherit' }}
+            style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontFamily: 'inherit', fontWeight: '500', marginLeft: '0.5rem' }}
           >
             {isLogin ? 'Sign up' : 'Login'}
           </button>
