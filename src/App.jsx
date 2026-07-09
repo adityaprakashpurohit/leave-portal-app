@@ -146,14 +146,14 @@ export default function App() {
       />
 
       {/* Main Body with Sidebar + Content */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex">
         
-        {/* Responsive Sidebar */}
+        {/* Responsive Fixed Sidebar */}
         <Sidebar
           activeTab={activeTab}
           onTabChange={(tab) => {
             setActiveTab(tab);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo(0, 0);
           }}
           currentRole={currentRole}
           onRoleChange={handleRoleChange}
@@ -161,8 +161,8 @@ export default function App() {
           onMobileClose={() => setMobileMenuOpen(false)}
         />
 
-        {/* Content Area with responsive padding for mobile bottom bar */}
-        <main className="flex-1 overflow-y-auto p-3 sm:p-5 md:p-6 lg:p-8 max-w-7xl mx-auto w-full pb-24 lg:pb-8">
+        {/* Content Area with fixed offsets (pt-16 for top Navbar, lg:pl-60 for desktop Sidebar) */}
+        <main className="flex-1 pt-16 lg:pl-60 min-h-screen p-3 sm:p-5 md:p-6 lg:p-8 max-w-7xl mx-auto w-full pb-24 lg:pb-8">
           
           {activeTab === 'dashboard' && (
             <Dashboard

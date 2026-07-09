@@ -33,12 +33,12 @@ export default function Sidebar({ activeTab, onTabChange, currentRole, onRoleCha
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-60 bg-brand-teal-deep text-on-dark flex flex-col transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-60 bg-brand-teal-deep text-on-dark flex flex-col transition-transform duration-200 ease-in-out lg:fixed lg:top-16 lg:bottom-0 lg:left-0 lg:z-40 lg:translate-x-0 ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Sidebar Header */}
-        <div className="h-16 px-5 flex items-center justify-between border-b border-white/10">
+        {/* Sidebar Header (Mobile Drawer Only, Desktop has fixed top Navbar) */}
+        <div className="h-16 px-5 flex items-center justify-between border-b border-white/10 lg:hidden">
           <div className="flex items-center gap-2.5">
             <div className="w-7 h-7 rounded bg-primary text-on-primary font-bold flex items-center justify-center text-sm">
               CL
